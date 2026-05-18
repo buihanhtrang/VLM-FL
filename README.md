@@ -45,7 +45,26 @@ cd PromptFolio
 
 ## Quick Start (CIFAR-100)
 
-CIFAR-100 is the easiest dataset to start with — it downloads automatically via torchvision, so **no manual setup is needed**.
+CIFAR-100 is the easiest dataset to start with — it downloads automatically via torchvision (~160 MB), so **no manual setup is needed**.
+
+### Minimal run (copy-paste ready)
+
+```bash
+conda create -n PromptFolio python=3.8 yacs tqdm tabulate ftfy regex tensorboard -y
+conda activate PromptFolio
+pip install torch==2.1.0 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cu121
+pip install timm gdown prettytable scikit-learn einops
+
+python federated_main.py \
+  --dataset-config-file configs/datasets/cifar100.yaml \
+  --config-file configs/trainers/PromptFolio/rn50.yaml \
+  --trainer PromptFolio --model fedavg \
+  --num_users 5 --frac 1.0 --frac_p 0.4 \
+  --beta 0.3 --round 3 \
+  --root ~/data
+```
+
+Expected runtime: ~5–10 min on a single GPU. Results are written to `result.json`.
 
 ### Step 1 — Create a data directory
 
